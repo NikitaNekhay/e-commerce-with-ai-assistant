@@ -11,6 +11,7 @@ import AutoFields from '../components/edit/AutoFields';
 import RealEstateFields from '../components/edit/RealEstateFields';
 import AiChat from '../components/edit/AiChat';
 import DiffView from '../components/edit/DiffView';
+import PhotoEditor from '../components/edit/PhotoEditor';
 import type { Category, ItemUpdatePayload, MarketPriceInfo } from '../types/card';
 
 const { TextArea } = Input;
@@ -40,6 +41,7 @@ export default function CardEditPage() {
   const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [currentDescription, setCurrentDescription] = useState('');
+  const [editImages, setEditImages] = useState<string[]>([]);
   const initializedRef = useRef(false);
 
   // AI states
@@ -75,6 +77,7 @@ export default function CardEditPage() {
     setSelectedCategory(item.category);
     setDescriptionLength(item.description?.length || 0);
     setCurrentDescription(item.description || '');
+    setEditImages(item.images || []);
   }, [item, form]);
 
   // Auto-save draft on form changes
@@ -238,7 +241,7 @@ export default function CardEditPage() {
   // Submit form
   const handleSubmit = async (values: any) => {
     if (!id) return;
-    const payload = buildPayloadFromForm(values);
+    const payload = { ...buildPayloadFromForm(values), images: editImages };
 
     try {
       await dispatch(updateItem({ id: Number(id), data: payload })).unwrap();
@@ -472,6 +475,11 @@ export default function CardEditPage() {
                     )}
                   </div>
                 </Form.Item>
+
+                <div className="h-px bg-gray-200 dark:bg-gray-600" />
+
+                {/* Photos */}
+                <PhotoEditor images={editImages} onChange={setEditImages} />
 
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4">

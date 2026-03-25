@@ -123,16 +123,16 @@ export default function CardsPage() {
             />
 
             {/* View Mode Toggle */}
-            <div className="flex gap-2">
+            <div className="flex gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700'}`}
+                className={`cursor-pointer p-2 rounded-md transition-all duration-200 ${viewMode === 'grid' ? 'bg-blue-500 text-white shadow-sm scale-105' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
               >
                 <AppstoreOutlined />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700'}`}
+                className={`cursor-pointer p-2 rounded-md transition-all duration-200 ${viewMode === 'list' ? 'bg-blue-500 text-white shadow-sm scale-105' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
               >
                 <UnorderedListOutlined />
               </button>
@@ -189,7 +189,7 @@ export default function CardsPage() {
             {hasActiveFilters && (
               <button
                 onClick={handleResetFilters}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm px-6 py-3 text-blue-500 hover:text-blue-700 transition-colors text-sm font-medium"
+                className="bg-white cursor-pointer dark:bg-gray-800 rounded-2xl shadow-sm px-6 py-3 text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-all duration-200 text-sm font-medium hover:shadow-md active:scale-95"
               >
                 Сбросить фильтры
               </button>
@@ -218,11 +218,15 @@ export default function CardsPage() {
                       className="block"
                     >
                       {viewMode === 'grid' ? (
-                        <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-shadow h-[340px] flex flex-col">
-                          <div className="bg-[#fafafa] dark:bg-gray-700 h-[140px] flex items-center justify-center shrink-0">
-                            <svg className="w-20 h-20 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
-                            </svg>
+                        <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 h-[340px] flex flex-col">
+                          <div className="bg-[#fafafa] dark:bg-gray-700 h-[140px] flex items-center justify-center shrink-0 overflow-hidden">
+                            {item.images && item.images.length > 0 ? (
+                              <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
+                            ) : (
+                              <svg className="w-20 h-20 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                              </svg>
+                            )}
                           </div>
                           <div className="p-3 flex flex-col flex-1">
                             <div className="mb-1">
@@ -244,11 +248,15 @@ export default function CardsPage() {
                           </div>
                         </div>
                       ) : (
-                        <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex">
-                          <div className="bg-[#fafafa] dark:bg-gray-700 w-48 h-32 flex items-center justify-center shrink-0">
-                            <svg className="w-16 h-16 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
-                            </svg>
+                        <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200 flex">
+                          <div className="bg-[#fafafa] dark:bg-gray-700 w-48 h-32 flex items-center justify-center shrink-0 overflow-hidden">
+                            {item.images && item.images.length > 0 ? (
+                              <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
+                            ) : (
+                              <svg className="w-16 h-16 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                              </svg>
+                            )}
                           </div>
                           <div className="p-4 flex-1 flex items-center justify-between">
                             <div>

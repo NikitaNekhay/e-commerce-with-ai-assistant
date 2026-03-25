@@ -6,6 +6,28 @@ export function getNextId(): number {
   return nextId++;
 }
 
+// Placeholder image URLs (picsum.photos with seeded IDs for consistency)
+const placeholders = {
+  electronics: [
+    'https://picsum.photos/seed/elec1/600/400',
+    'https://picsum.photos/seed/elec2/600/400',
+    'https://picsum.photos/seed/elec3/600/400',
+    'https://picsum.photos/seed/elec4/600/400',
+    'https://picsum.photos/seed/elec5/600/400',
+  ],
+  auto: [
+    'https://picsum.photos/seed/auto1/600/400',
+    'https://picsum.photos/seed/auto2/600/400',
+    'https://picsum.photos/seed/auto3/600/400',
+    'https://picsum.photos/seed/auto4/600/400',
+  ],
+  real_estate: [
+    'https://picsum.photos/seed/real1/600/400',
+    'https://picsum.photos/seed/real2/600/400',
+    'https://picsum.photos/seed/real3/600/400',
+  ],
+};
+
 export const items: Item[] = [
   {
     id: 1,
@@ -14,7 +36,7 @@ export const items: Item[] = [
     description: 'Продаю свой MacBook Pro 16" (2021) на чипе M1 Pro. Состояние отличное, работал бережно. Мощности хватает на всё: от сложного монтажа до кода, при этом ноутбук почти не греется.',
     price: 64000,
     params: { type: 'laptop', brand: 'Apple', model: 'MacBook Pro M1 Pro', condition: 'used', color: 'Серый' },
-    images: [],
+    images: [placeholders.electronics[0], placeholders.electronics[1], placeholders.electronics[2]],
     createdAt: '2025-03-10T22:39:00.000Z',
     updatedAt: '2025-03-10T23:12:00.000Z',
   },
@@ -25,7 +47,7 @@ export const items: Item[] = [
     description: 'Новый iPhone 17 Pro Max в отличном состоянии. Полный комплект, коробка, документы. Куплен в официальном магазине.',
     price: 107000,
     params: { type: 'phone', brand: 'Apple', model: 'iPhone 17 Pro Max', condition: 'new', color: 'Титановый' },
-    images: [],
+    images: [placeholders.electronics[3], placeholders.electronics[4]],
     createdAt: '2025-03-12T10:20:00.000Z',
   },
   {
@@ -65,7 +87,7 @@ export const items: Item[] = [
     description: 'Уютная студия в центре города. Свежий ремонт, мебель, техника. Тихий двор, рядом метро и парк.',
     price: 15000000,
     params: { type: 'flat', address: 'Москва, ул. Тверская, д. 15', area: 25, floor: 3 },
-    images: [],
+    images: [placeholders.real_estate[0], placeholders.real_estate[1], placeholders.real_estate[2]],
     createdAt: '2025-03-11T12:15:00.000Z',
   },
   {
@@ -85,7 +107,7 @@ export const items: Item[] = [
     description: 'Новый кроссовер Omoda C5. Полная комплектация, все опции. Гарантия от производителя.',
     price: 2900000,
     params: { brand: 'Omoda', model: 'C5', yearOfManufacture: 2024, transmission: 'automatic', mileage: 0, enginePower: 150 },
-    images: [],
+    images: [placeholders.auto[0], placeholders.auto[1], placeholders.auto[2], placeholders.auto[3]],
     createdAt: '2025-03-12T11:00:00.000Z',
   },
   {
@@ -115,7 +137,7 @@ export const items: Item[] = [
     description: 'Флагманский смартфон Samsung с AI-функциями. Память 512GB, стилус S Pen в комплекте.',
     price: 89000,
     params: { type: 'phone', brand: 'Samsung', model: 'Galaxy S24 Ultra', condition: 'new', color: 'Фиолетовый' },
-    images: [],
+    images: [placeholders.electronics[1], placeholders.electronics[3]],
     createdAt: '2025-03-09T15:30:00.000Z',
   },
   {
@@ -135,7 +157,7 @@ export const items: Item[] = [
     description: 'Просторная двухкомнатная квартира в новостройке. Панорамные окна, два санузла, подземный паркинг.',
     price: 28000000,
     params: { type: 'flat', address: 'Москва, Пресненская набережная, д. 8', area: 68, floor: 17 },
-    images: [],
+    images: [placeholders.real_estate[1], placeholders.real_estate[0], placeholders.real_estate[2]],
     createdAt: '2025-03-07T09:15:00.000Z',
   },
   {
@@ -154,7 +176,7 @@ export const items: Item[] = [
     description: 'Премиальный кроссовер BMW X5 в максимальной комплектации. Пневмоподвеска, панорамная крыша, Harman Kardon.',
     price: 8500000,
     params: { brand: 'BMW', model: 'X5 xDrive40i', yearOfManufacture: 2022, transmission: 'automatic', mileage: 35000, enginePower: 340 },
-    images: [],
+    images: [placeholders.auto[2], placeholders.auto[0], placeholders.auto[1]],
     createdAt: '2025-03-05T14:30:00.000Z',
   },
   {
@@ -222,7 +244,7 @@ export const items: Item[] = [
     description: 'Просторная трёхкомнатная квартира в сталинском доме. Высокие потолки, два балкона.',
     price: 42000000,
     params: { type: 'flat', address: 'Москва, Кутузовский проспект, д. 26', area: 95, floor: 5 },
-    images: [],
+    images: [placeholders.real_estate[2], placeholders.real_estate[1]],
     createdAt: '2025-02-26T16:40:00.000Z',
   },
   {

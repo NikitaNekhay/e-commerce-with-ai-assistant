@@ -69,6 +69,7 @@ router.get('/', (req: Request, res: Response) => {
     category: item.category,
     title: item.title,
     price: item.price,
+    images: item.images || [],
     needsRevision: computeNeedsRevision(item),
   }));
 
@@ -127,6 +128,7 @@ router.put('/:id', (req: Request, res: Response) => {
     description: updateData.description,
     price: updateData.price,
     params: updateData.params || {},
+    images: req.body.images !== undefined ? req.body.images : existingItem.images,
     updatedAt: new Date().toISOString(),
   };
 

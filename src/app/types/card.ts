@@ -43,6 +43,7 @@ export interface ItemListEntry {
   category: Category;
   title: string;
   price: number;
+  images?: string[];
   needsRevision: boolean;
 }
 
@@ -66,6 +67,7 @@ export interface ItemUpdatePayload {
   description?: string;
   price: number;
   params: ItemParams;
+  images?: string[];
 }
 
 export interface ItemsQueryParams {
