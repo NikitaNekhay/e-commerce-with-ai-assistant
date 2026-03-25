@@ -162,12 +162,12 @@ export default function CardDetailPage() {
             <div className="flex-1">
               {/* Notification for missing fields */}
               {needsRevision && (
-                <div className="mb-6 bg-[#f9f1e6] dark:bg-yellow-900/30 rounded-lg p-4 shadow-md flex gap-4">
+                <div className="mb-6 bg-[#f9f1e6] rounded-lg p-4 shadow-md flex gap-4">
                   <ExclamationCircleOutlined className="text-[#FFA940] text-lg mt-1" />
                   <div>
-                    <h3 className="font-semibold text-base mb-1">Требуются доработки</h3>
-                    <p className="text-sm mb-1">У объявления не заполнены поля:</p>
-                    <ul className="list-disc ml-5 text-sm">
+                    <h3 className="font-semibold text-base mb-1 text-gray-900">Требуются доработки</h3>
+                    <p className="text-sm mb-1 text-gray-700">У объявления не заполнены поля:</p>
+                    <ul className="list-disc ml-5 text-sm text-gray-700">
                       {missingFields.map((field, index) => (
                         <li key={index}>{field}</li>
                       ))}

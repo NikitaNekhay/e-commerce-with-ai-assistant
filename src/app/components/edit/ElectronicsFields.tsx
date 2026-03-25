@@ -28,7 +28,7 @@ export default function ElectronicsFields({ revisionFields }: ElectronicsFieldsP
         validateStatus={revisionFields?.has('brand') ? 'warning' : undefined}
         help={revisionFields?.has('brand') ? 'Поле требует доработок' : undefined}
       >
-        <Input size="large" placeholder="Например: Apple" allowClear />
+        <Input size="large" placeholder="Например: Apple" allowClear maxLength={100} />
       </Form.Item>
 
       <Form.Item
@@ -38,7 +38,7 @@ export default function ElectronicsFields({ revisionFields }: ElectronicsFieldsP
         validateStatus={revisionFields?.has('model') ? 'warning' : undefined}
         help={revisionFields?.has('model') ? 'Поле требует доработок' : undefined}
       >
-        <Input size="large" placeholder="Например: iPhone 15 Pro" allowClear />
+        <Input size="large" placeholder="Например: iPhone 15 Pro" allowClear maxLength={100} />
       </Form.Item>
 
       <Form.Item
@@ -61,7 +61,7 @@ export default function ElectronicsFields({ revisionFields }: ElectronicsFieldsP
         validateStatus={revisionFields?.has('color') ? 'warning' : undefined}
         help={revisionFields?.has('color') ? 'Поле требует доработок' : undefined}
       >
-        <Input size="large" placeholder="Например: Черный" allowClear />
+        <Input size="large" placeholder="Например: Черный" allowClear maxLength={50} />
       </Form.Item>
     </>
   );

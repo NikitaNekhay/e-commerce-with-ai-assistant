@@ -224,9 +224,13 @@ export default function CardEditPage() {
 
   const handleApplyDescription = () => {
     if (aiDescResult) {
-      form.setFieldsValue({ description: aiDescResult });
-      setDescriptionLength(aiDescResult.length);
-      setCurrentDescription(aiDescResult);
+      const desc = aiDescResult.length > 1000 ? aiDescResult.slice(0, 1000) : aiDescResult;
+      if (aiDescResult.length > 1000) {
+        message.warning('Описание было сокращено до 1000 символов');
+      }
+      form.setFieldsValue({ description: desc });
+      setDescriptionLength(desc.length);
+      setCurrentDescription(desc);
       setAiDescResult(null);
       handleValuesChange();
       message.success('Описание применено');
@@ -421,7 +425,7 @@ export default function CardEditPage() {
                   }
                   rules={[{ required: true, message: 'Пожалуйста, введите название' }]}
                 >
-                  <Input size="large" placeholder="Введите название объявления" style={{ maxWidth: 456 }} allowClear />
+                  <Input size="large" placeholder="Введите название объявления" style={{ maxWidth: 456 }} allowClear maxLength={200} showCount />
                 </Form.Item>
 
                 <div className="h-px bg-gray-200 dark:bg-gray-600" />
@@ -483,20 +487,22 @@ export default function CardEditPage() {
                 {/* Description - use Form.Item without name for layout, inner Form.Item with name for control */}
                 <Form.Item label={<span className="font-semibold">Описание</span>}>
                   <div className="space-y-3">
-                    <Form.Item
-                      name="description"
-                      noStyle={!revisionFields.has('description')}
-                      validateStatus={revisionFields.has('description') ? 'warning' : undefined}
-                      help={revisionFields.has('description') ? 'Поле требует доработок' : undefined}
-                    >
+                    <Form.Item name="description" noStyle>
                       <TextArea
                         rows={6}
                         maxLength={1000}
                         showCount
                         style={{ maxWidth: 942 }}
                         onChange={(e) => setDescriptionLength(e.target.value.length)}
+                        status={revisionFields.has('description') ? 'warning' : undefined}
                       />
                     </Form.Item>
+                    {revisionFields.has('description') && (
+                      <p className="text-[#fa8c16] text-sm">Поле требует доработок</p>
+                    )}
+                    {descriptionLength >= 1000 && (
+                      <p className="text-[#fa8c16] text-sm">Достигнут лимит в 1000 символов</p>
+                    )}
 
                     <Button
                       icon={aiDescDone && !aiDescLoading ? <RedoOutlined /> : <BulbOutlined />}

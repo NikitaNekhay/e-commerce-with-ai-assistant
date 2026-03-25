@@ -28,7 +28,7 @@ export default function RealEstateFields({ revisionFields }: RealEstateFieldsPro
         validateStatus={revisionFields?.has('address') ? 'warning' : undefined}
         help={revisionFields?.has('address') ? 'Поле требует доработок' : undefined}
       >
-        <Input size="large" placeholder="Например: Москва, ул. Тверская, д. 15" allowClear />
+        <Input size="large" placeholder="Например: Москва, ул. Тверская, д. 15" allowClear maxLength={200} />
       </Form.Item>
 
       <Form.Item

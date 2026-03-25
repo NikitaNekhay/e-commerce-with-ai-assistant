@@ -14,7 +14,7 @@ export default function AutoFields({ revisionFields }: AutoFieldsProps) {
         validateStatus={revisionFields?.has('brand') ? 'warning' : undefined}
         help={revisionFields?.has('brand') ? 'Поле требует доработок' : undefined}
       >
-        <Input size="large" placeholder="Например: Toyota" allowClear />
+        <Input size="large" placeholder="Например: Toyota" allowClear maxLength={100} />
       </Form.Item>
 
       <Form.Item
@@ -24,7 +24,7 @@ export default function AutoFields({ revisionFields }: AutoFieldsProps) {
         validateStatus={revisionFields?.has('model') ? 'warning' : undefined}
         help={revisionFields?.has('model') ? 'Поле требует доработок' : undefined}
       >
-        <Input size="large" placeholder="Например: Camry" allowClear />
+        <Input size="large" placeholder="Например: Camry" allowClear maxLength={100} />
       </Form.Item>
 
       <Form.Item

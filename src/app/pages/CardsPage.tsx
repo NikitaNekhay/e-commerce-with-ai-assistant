@@ -18,14 +18,23 @@ const SORT_MAP: Record<SortOption, Pick<ItemsQueryParams, 'sortColumn' | 'sortDi
   priceDesc: { sortColumn: 'price', sortDirection: 'desc' },
 };
 
+function deriveSortOption(query: ItemsQueryParams): SortOption {
+  for (const [key, val] of Object.entries(SORT_MAP)) {
+    if (val.sortColumn === query.sortColumn && val.sortDirection === query.sortDirection) {
+      return key as SortOption;
+    }
+  }
+  return 'createdAtDesc';
+}
+
 export default function CardsPage() {
   const dispatch = useAppDispatch();
   const { items, total, loading, error, query, currentPage } = useAppSelector((state) => state.ads);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [sortBy, setSortBy] = useState<SortOption>('createdAtDesc');
-  const [needsRevision, setNeedsRevision] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const [searchInput, setSearchInput] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>(() => deriveSortOption(query));
+  const [needsRevision, setNeedsRevision] = useState(() => query.needsRevision || false);
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>(() => query.categories || []);
+  const [searchInput, setSearchInput] = useState(() => query.q || '');
   const debounceTimer = useRef<ReturnType<typeof setTimeout>>();
 
   // Debounced search
@@ -241,8 +250,8 @@ export default function CardsPage() {
                             <p className="text-lg font-semibold">{item.price.toLocaleString('ru-RU')} ₽</p>
                             <div className="mt-auto">
                               {item.needsRevision ? (
-                                <div className="p-1.5 bg-orange-50 dark:bg-orange-900/30 rounded text-xs">
-                                  <span className="text-orange-600 dark:text-orange-400 font-medium">⚠ Требует доработок</span>
+                                <div className="p-1.5 bg-[#fff7ed] rounded text-xs">
+                                  <span className="text-[#ea580c] font-medium">⚠ Требует доработок</span>
                                 </div>
                               ) : (
                                 <div className="h-[28px]" />
@@ -268,7 +277,7 @@ export default function CardsPage() {
                               </span>
                               <h3 className="font-medium text-lg">{item.title}</h3>
                               {item.needsRevision && (
-                                <span className="text-orange-600 text-sm font-medium">⚠ Требует доработок</span>
+                                <span className="text-[#ea580c] text-sm font-medium">⚠ Требует доработок</span>
                               )}
                             </div>
                             <p className="text-2xl font-semibold">{item.price.toLocaleString('ru-RU')} ₽</p>
