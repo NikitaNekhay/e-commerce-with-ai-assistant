@@ -208,7 +208,7 @@ export default function CardsPage() {
               <>
                 <div className={
                   viewMode === 'grid'
-                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
+                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4'
                     : 'flex flex-col gap-4'
                 }>
                   {items.map((item) => (
@@ -218,25 +218,29 @@ export default function CardsPage() {
                       className="block"
                     >
                       {viewMode === 'grid' ? (
-                        <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                          <div className="bg-[#fafafa] h-48 flex items-center justify-center">
-                            <svg className="w-24 h-24 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                        <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-shadow h-[340px] flex flex-col">
+                          <div className="bg-[#fafafa] h-[140px] flex items-center justify-center shrink-0">
+                            <svg className="w-20 h-20 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
                             </svg>
                           </div>
-                          <div className="p-4">
-                            <div className="mb-2">
-                              <span className="inline-block px-2 py-1 bg-gray-100 text-xs rounded">
+                          <div className="p-3 flex flex-col flex-1">
+                            <div className="mb-1">
+                              <span className="inline-block px-2 py-0.5 bg-gray-100 text-xs rounded">
                                 {CATEGORY_LABELS[item.category]}
                               </span>
                             </div>
-                            <h3 className="font-medium text-lg mb-2 truncate">{item.title}</h3>
-                            <p className="text-2xl font-semibold mb-2">{item.price.toLocaleString('ru-RU')} ₽</p>
-                            {item.needsRevision && (
-                              <div className="mt-3 p-2 bg-orange-50 rounded text-sm">
-                                <span className="text-orange-600 font-medium">⚠ Требует доработок</span>
-                              </div>
-                            )}
+                            <h3 className="font-medium text-sm mb-1 truncate">{item.title}</h3>
+                            <p className="text-lg font-semibold">{item.price.toLocaleString('ru-RU')} ₽</p>
+                            <div className="mt-auto">
+                              {item.needsRevision ? (
+                                <div className="p-1.5 bg-orange-50 rounded text-xs">
+                                  <span className="text-orange-600 font-medium">⚠ Требует доработок</span>
+                                </div>
+                              ) : (
+                                <div className="h-[28px]" />
+                              )}
+                            </div>
                           </div>
                         </div>
                       ) : (
