@@ -116,7 +116,7 @@ export default function CardDetailPage() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <span className="inline-block px-2 py-1 bg-gray-100 text-xs rounded mb-2">
+                <span className="inline-block px-2 py-1 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-xs rounded mb-2">
                   {CATEGORY_LABELS[item.category]}
                 </span>
                 <h1 className="text-3xl font-medium">{item.title}</h1>
@@ -138,13 +138,13 @@ export default function CardDetailPage() {
             </div>
           </div>
 
-          <div className="h-px bg-gray-200 mb-8" />
+          <div className="h-px bg-gray-200 dark:bg-gray-600 mb-8" />
 
           {/* Details Section */}
           <div className="flex gap-8 mb-8">
             {/* Image */}
             <div className="w-[480px] shrink-0">
-              <div className="bg-[#fafafa] rounded-lg h-[360px] flex items-center justify-center">
+              <div className="bg-[#fafafa] dark:bg-gray-700 rounded-lg h-[360px] flex items-center justify-center">
                 <svg className="w-48 h-48 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
                 </svg>
@@ -155,7 +155,7 @@ export default function CardDetailPage() {
             <div className="flex-1">
               {/* Notification for missing fields */}
               {needsRevision && (
-                <div className="mb-6 bg-[#f9f1e6] rounded-lg p-4 shadow-md flex gap-4">
+                <div className="mb-6 bg-[#f9f1e6] dark:bg-yellow-900/30 rounded-lg p-4 shadow-md flex gap-4">
                   <ExclamationCircleOutlined className="text-[#FFA940] text-lg mt-1" />
                   <div>
                     <h3 className="font-semibold text-base mb-1">Требуются доработки</h3>

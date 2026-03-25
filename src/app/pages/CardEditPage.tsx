@@ -50,7 +50,8 @@ export default function CardEditPage() {
   const [showPricePopover, setShowPricePopover] = useState(false);
   const [aiDescDone, setAiDescDone] = useState(false);
   const [aiPriceDone, setAiPriceDone] = useState(false);
-  const aiAbortRef = useRef<AbortController | null>(null);
+  const aiDescAbortRef = useRef<AbortController | null>(null);
+  const aiPriceAbortRef = useRef<AbortController | null>(null);
 
   // All hooks MUST be above any early returns
 
@@ -85,7 +86,7 @@ export default function CardEditPage() {
 
   // Cleanup abort on unmount
   useEffect(() => {
-    return () => { aiAbortRef.current?.abort(); };
+    return () => { aiDescAbortRef.current?.abort(); aiPriceAbortRef.current?.abort(); };
   }, []);
 
   // Fetch item
@@ -152,9 +153,9 @@ export default function CardEditPage() {
       return;
     }
 
-    aiAbortRef.current?.abort();
+    aiDescAbortRef.current?.abort();
     const controller = new AbortController();
-    aiAbortRef.current = controller;
+    aiDescAbortRef.current = controller;
 
     setAiDescLoading(true);
     setAiDescResult(null);
@@ -201,9 +202,9 @@ export default function CardEditPage() {
       return;
     }
 
-    aiAbortRef.current?.abort();
+    aiPriceAbortRef.current?.abort();
     const controller = new AbortController();
-    aiAbortRef.current = controller;
+    aiPriceAbortRef.current = controller;
 
     setAiPriceLoading(true);
     setAiPriceData(null);
@@ -364,7 +365,7 @@ export default function CardEditPage() {
                   </Select>
                 </Form.Item>
 
-                <div className="h-px bg-gray-200" />
+                <div className="h-px bg-gray-200 dark:bg-gray-600" />
 
                 {/* Title */}
                 <Form.Item
@@ -380,7 +381,7 @@ export default function CardEditPage() {
                   <Input size="large" placeholder="Введите название объявления" style={{ maxWidth: 456 }} allowClear />
                 </Form.Item>
 
-                <div className="h-px bg-gray-200" />
+                <div className="h-px bg-gray-200 dark:bg-gray-600" />
 
                 {/* Price - use Form.Item without name for layout, inner Form.Item with name for control */}
                 <Form.Item label={
@@ -413,8 +414,8 @@ export default function CardEditPage() {
                       <Button
                         icon={aiPriceDone && !aiPriceLoading ? <RedoOutlined /> : <BulbOutlined />}
                         className={aiPriceDone && !aiPriceLoading
-                          ? 'bg-[#f6ffed] border-0 text-[#52c41a]'
-                          : 'bg-[#f9f1e6] border-0 text-[#ffa940] hover:bg-[#f9f1e6] hover:text-[#ffa940]'}
+                          ? 'bg-[#f6ffed] dark:bg-green-900/30 border-0 text-[#52c41a] dark:text-green-400'
+                          : 'bg-[#f9f1e6] dark:bg-yellow-900/30 border-0 text-[#ffa940] dark:text-orange-400 hover:bg-[#f9f1e6] hover:text-[#ffa940]'}
                         onClick={handleAiMarketPrice}
                         loading={aiPriceLoading}
                       >
@@ -424,7 +425,7 @@ export default function CardEditPage() {
                   </div>
                 </Form.Item>
 
-                <div className="h-px bg-gray-200" />
+                <div className="h-px bg-gray-200 dark:bg-gray-600" />
 
                 {/* Characteristics */}
                 <div>
@@ -434,7 +435,7 @@ export default function CardEditPage() {
                   </div>
                 </div>
 
-                <div className="h-px bg-gray-200" />
+                <div className="h-px bg-gray-200 dark:bg-gray-600" />
 
                 {/* Description - use Form.Item without name for layout, inner Form.Item with name for control */}
                 <Form.Item label={<span className="font-semibold">Описание</span>}>

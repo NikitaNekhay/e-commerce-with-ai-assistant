@@ -68,9 +68,9 @@ export default function AiChat({ getItemPayload }: AiChatProps) {
   };
 
   return (
-    <div className="border rounded-lg flex flex-col h-[500px] bg-gray-50 dark:bg-gray-900">
+    <div className="border dark:border-gray-600 rounded-lg flex flex-col h-[500px] bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <div className="px-4 py-3 border-b flex items-center justify-between bg-white dark:bg-gray-800 rounded-t-lg">
+      <div className="px-4 py-3 border-b dark:border-gray-600 flex items-center justify-between bg-white dark:bg-gray-800 rounded-t-lg">
         <div className="flex items-center gap-2">
           <RobotOutlined className="text-blue-500" />
           <span className="font-semibold text-sm">AI-ассистент</span>
@@ -104,7 +104,7 @@ export default function AiChat({ getItemPayload }: AiChatProps) {
             className={`flex gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {msg.role === 'assistant' && (
-              <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center shrink-0 mt-1">
+              <div className="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center shrink-0 mt-1">
                 <RobotOutlined className="text-blue-500 text-xs" />
               </div>
             )}
@@ -112,13 +112,13 @@ export default function AiChat({ getItemPayload }: AiChatProps) {
               className={`max-w-[80%] rounded-lg px-3 py-2 text-sm whitespace-pre-wrap ${
                 msg.role === 'user'
                   ? 'bg-blue-500 text-white'
-                  : 'bg-white dark:bg-gray-700 border'
+                  : 'bg-white dark:bg-gray-700 border dark:border-gray-600'
               }`}
             >
               {msg.content}
             </div>
             {msg.role === 'user' && (
-              <div className="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center shrink-0 mt-1">
+              <div className="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center shrink-0 mt-1">
                 <UserOutlined className="text-gray-500 text-xs" />
               </div>
             )}
@@ -127,7 +127,7 @@ export default function AiChat({ getItemPayload }: AiChatProps) {
 
         {isLoading && (
           <div className="flex gap-2 justify-start">
-            <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center shrink-0">
               <RobotOutlined className="text-blue-500 text-xs" />
             </div>
             <div className="bg-white dark:bg-gray-700 border rounded-lg px-3 py-2">
@@ -140,7 +140,7 @@ export default function AiChat({ getItemPayload }: AiChatProps) {
       </div>
 
       {/* Input */}
-      <div className="p-3 border-t bg-white dark:bg-gray-800 rounded-b-lg">
+      <div className="p-3 border-t dark:border-gray-600 bg-white dark:bg-gray-800 rounded-b-lg">
         <div className="flex gap-2">
           <Input
             value={inputValue}

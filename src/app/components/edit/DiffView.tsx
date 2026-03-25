@@ -64,11 +64,11 @@ export default function DiffView({ original, improved, onApply, onReject }: Diff
   const { left, right } = computeWordDiff(original || '', improved);
 
   return (
-    <div className="border border-blue-200 rounded-lg overflow-hidden" style={{ maxWidth: 942 }}>
+    <div className="border border-blue-200 dark:border-gray-600 rounded-lg overflow-hidden" style={{ maxWidth: 942 }}>
       <div className="grid grid-cols-2">
         {/* Original */}
-        <div className="border-r border-blue-200">
-          <div className="bg-red-50 dark:bg-red-900/20 px-3 py-2 border-b border-blue-200">
+        <div className="border-r border-blue-200 dark:border-gray-600">
+          <div className="bg-red-50 dark:bg-red-900/20 px-3 py-2 border-b border-blue-200 dark:border-gray-600">
             <span className="font-semibold text-sm text-red-700 dark:text-red-300">Было</span>
           </div>
           <div className="p-3 text-sm leading-relaxed min-h-[100px]">
@@ -89,7 +89,7 @@ export default function DiffView({ original, improved, onApply, onReject }: Diff
 
         {/* Improved */}
         <div>
-          <div className="bg-green-50 dark:bg-green-900/20 px-3 py-2 border-b border-blue-200">
+          <div className="bg-green-50 dark:bg-green-900/20 px-3 py-2 border-b border-blue-200 dark:border-gray-600">
             <span className="font-semibold text-sm text-green-700 dark:text-green-300">Стало</span>
           </div>
           <div className="p-3 text-sm leading-relaxed min-h-[100px]">
@@ -105,7 +105,7 @@ export default function DiffView({ original, improved, onApply, onReject }: Diff
         </div>
       </div>
 
-      <div className="flex gap-2 p-3 border-t border-blue-200 bg-gray-50 dark:bg-gray-800">
+      <div className="flex gap-2 p-3 border-t border-blue-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800">
         <Button type="primary" size="small" onClick={onApply}>
           Применить
         </Button>

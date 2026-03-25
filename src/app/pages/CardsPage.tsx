@@ -219,14 +219,14 @@ export default function CardsPage() {
                     >
                       {viewMode === 'grid' ? (
                         <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-shadow h-[340px] flex flex-col">
-                          <div className="bg-[#fafafa] h-[140px] flex items-center justify-center shrink-0">
+                          <div className="bg-[#fafafa] dark:bg-gray-700 h-[140px] flex items-center justify-center shrink-0">
                             <svg className="w-20 h-20 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
                             </svg>
                           </div>
                           <div className="p-3 flex flex-col flex-1">
                             <div className="mb-1">
-                              <span className="inline-block px-2 py-0.5 bg-gray-100 text-xs rounded">
+                              <span className="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-xs rounded">
                                 {CATEGORY_LABELS[item.category]}
                               </span>
                             </div>
@@ -234,8 +234,8 @@ export default function CardsPage() {
                             <p className="text-lg font-semibold">{item.price.toLocaleString('ru-RU')} ₽</p>
                             <div className="mt-auto">
                               {item.needsRevision ? (
-                                <div className="p-1.5 bg-orange-50 rounded text-xs">
-                                  <span className="text-orange-600 font-medium">⚠ Требует доработок</span>
+                                <div className="p-1.5 bg-orange-50 dark:bg-orange-900/30 rounded text-xs">
+                                  <span className="text-orange-600 dark:text-orange-400 font-medium">⚠ Требует доработок</span>
                                 </div>
                               ) : (
                                 <div className="h-[28px]" />
@@ -245,14 +245,14 @@ export default function CardsPage() {
                         </div>
                       ) : (
                         <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex">
-                          <div className="bg-[#fafafa] w-48 h-32 flex items-center justify-center shrink-0">
+                          <div className="bg-[#fafafa] dark:bg-gray-700 w-48 h-32 flex items-center justify-center shrink-0">
                             <svg className="w-16 h-16 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
                             </svg>
                           </div>
                           <div className="p-4 flex-1 flex items-center justify-between">
                             <div>
-                              <span className="inline-block px-2 py-1 bg-gray-100 text-xs rounded mb-1">
+                              <span className="inline-block px-2 py-1 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-xs rounded mb-1">
                                 {CATEGORY_LABELS[item.category]}
                               </span>
                               <h3 className="font-medium text-lg">{item.title}</h3>
