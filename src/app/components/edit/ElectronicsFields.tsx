@@ -1,3 +1,5 @@
+// поля характеристик для категории "электроника"
+// revisionFields — набор полей требующих доработки, подсвечиваются warning
 import { Form, Input, Select } from 'antd';
 
 interface ElectronicsFieldsProps {

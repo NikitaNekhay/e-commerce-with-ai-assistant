@@ -1,3 +1,6 @@
+// api для ai-функций: генерация описания, оценка цены, чат
+// таймаут 30с — ai-запросы долгие
+
 import axios from 'axios';
 import type { ItemUpdatePayload, MarketPriceInfo, ChatMessage } from '../types/card';
 
@@ -7,6 +10,7 @@ const api = axios.create({
 });
 
 export const aiApi = {
+  // генерация/улучшение описания через openrouter
   generateDescription: async (
     item: ItemUpdatePayload,
     currentDescription?: string,

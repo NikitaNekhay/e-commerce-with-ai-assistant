@@ -1,3 +1,5 @@
+// галерея фотографий для страницы объявления
+// основное фото + миниатюры снизу, стрелки переключения, клик открывает лайтбокс (antd Image.PreviewGroup)
 import { useState, useRef, useEffect } from 'react';
 import { Image } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
@@ -6,6 +8,7 @@ interface PhotoGalleryProps {
   images: string[];
 }
 
+// заглушка когда фото нет
 const ImagePlaceholder = () => (
   <div className="bg-[#fafafa] dark:bg-gray-700 w-full h-full flex items-center justify-center">
     <svg className="w-24 h-24 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -20,7 +23,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const thumbRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Scroll active thumbnail into view
+  // автоскролл к активной миниатюре
   useEffect(() => {
     const thumb = thumbRefs.current[selectedIndex];
     if (thumb && scrollRef.current) {
@@ -48,7 +51,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
 
   return (
     <div className="w-[480px] shrink-0">
-      {/* Main image with navigation arrows */}
+      {/* основное фото + стрелки навигации */}
       <div
         className="relative group rounded-lg h-[360px] overflow-hidden mb-3 cursor-pointer"
         onClick={() => setPreviewOpen(true)}
@@ -77,7 +80,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
           </>
         )}
 
-        {/* Image counter badge */}
+        {/* счётчик фото */}
         {images.length > 1 && (
           <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
             {selectedIndex + 1} / {images.length}
@@ -85,7 +88,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
         )}
       </div>
 
-      {/* Thumbnails */}
+      {/* миниатюры */}
       {images.length > 1 && (
         <div
           ref={scrollRef}
@@ -107,7 +110,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
         </div>
       )}
 
-      {/* Ant Design Image preview (hidden, used for lightbox) */}
+      {/* скрытый Image.PreviewGroup — antd лайтбокс, открывается по клику на основное фото */}
       <div style={{ height: 0, overflow: 'hidden' }}>
         <Image.PreviewGroup
           preview={{

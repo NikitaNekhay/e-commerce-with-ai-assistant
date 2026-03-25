@@ -1,3 +1,5 @@
+// компонент сравнения текстов "было → стало"
+// используется для показа diff между текущим описанием и ai-сгенерированным
 import { Button } from 'antd';
 
 interface DiffViewProps {
@@ -12,15 +14,16 @@ interface DiffToken {
   type: 'same' | 'added' | 'removed';
 }
 
+// пословный diff через LCS (longest common subsequence)
+// разбиваем текст на слова, строим dp-таблицу, потом backtrack для получения diff-токенов
 function computeWordDiff(oldText: string, newText: string): { left: DiffToken[]; right: DiffToken[] } {
   const oldWords = oldText.split(/(\s+)/);
   const newWords = newText.split(/(\s+)/);
 
-  // Simple LCS-based diff
   const m = oldWords.length;
   const n = newWords.length;
 
-  // Build LCS table
+  // таблица dp для LCS
   const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
@@ -32,7 +35,7 @@ function computeWordDiff(oldText: string, newText: string): { left: DiffToken[];
     }
   }
 
-  // Backtrack to find diff
+  // обратный проход — собираем токены
   const left: DiffToken[] = [];
   const right: DiffToken[] = [];
   let i = m, j = n;
@@ -66,7 +69,7 @@ export default function DiffView({ original, improved, onApply, onReject }: Diff
   return (
     <div className="border border-blue-200 dark:border-gray-600 rounded-lg overflow-hidden" style={{ maxWidth: 942 }}>
       <div className="grid grid-cols-2">
-        {/* Original */}
+        {/* было */}
         <div className="border-r border-blue-200 dark:border-gray-600">
           <div className="bg-red-50 dark:bg-red-900/20 px-3 py-2 border-b border-blue-200 dark:border-gray-600">
             <span className="font-semibold text-sm text-red-700 dark:text-red-300">Было</span>
@@ -87,7 +90,7 @@ export default function DiffView({ original, improved, onApply, onReject }: Diff
           </div>
         </div>
 
-        {/* Improved */}
+        {/* стало */}
         <div>
           <div className="bg-green-50 dark:bg-green-900/20 px-3 py-2 border-b border-blue-200 dark:border-gray-600">
             <span className="font-semibold text-sm text-green-700 dark:text-green-300">Стало</span>

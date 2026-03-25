@@ -1,3 +1,4 @@
+// поля характеристик для категории "недвижимость"
 import { Form, Input, InputNumber, Select } from 'antd';
 
 interface RealEstateFieldsProps {

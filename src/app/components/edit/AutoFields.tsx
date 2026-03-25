@@ -1,3 +1,4 @@
+// поля характеристик для категории "транспорт"
 import { Form, Input, InputNumber, Select } from 'antd';
 
 interface AutoFieldsProps {

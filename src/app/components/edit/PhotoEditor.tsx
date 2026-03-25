@@ -1,3 +1,5 @@
+// редактор фотографий — сортировка drag-n-drop, удаление, назначение главной
+// загрузка фото отключена (демо-режим)
 import { useState } from 'react';
 import { Button, Tooltip } from 'antd';
 import {
@@ -109,21 +111,21 @@ export default function PhotoEditor({ images, onChange }: PhotoEditorProps) {
               >
                 <img src={img} alt={`Фото ${i + 1}`} className="w-full h-full object-cover" />
 
-                {/* Main badge */}
+                {/* бейдж "главная" */}
                 {i === 0 && (
                   <div className="absolute top-1 left-1 bg-blue-500 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">
                     Главная
                   </div>
                 )}
 
-                {/* Drag handle */}
+                {/* иконка перетаскивания */}
                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="bg-black/50 text-white rounded p-0.5 cursor-grab">
                     <HolderOutlined className="text-xs" />
                   </div>
                 </div>
 
-                {/* Hover overlay with actions */}
+                {/* оверлей с кнопками при наведении */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-end justify-center pb-1.5 gap-1 opacity-0 group-hover:opacity-100">
                   {i !== 0 && (
                     <Tooltip title="Сделать главной">

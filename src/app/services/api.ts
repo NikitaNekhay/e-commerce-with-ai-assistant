@@ -1,3 +1,6 @@
+// api-сервис для работы с объявлениями
+// baseURL пустой — запросы идут на тот же хост (проксируются через vite в dev)
+
 import axios from 'axios';
 import type {
   ItemsListResponse,
@@ -12,6 +15,7 @@ const api = axios.create({
 });
 
 export const itemsApi = {
+  // получить список с фильтрами, собираем query-параметры вручную
   getItems: async (params: ItemsQueryParams = {}, signal?: AbortSignal): Promise<ItemsListResponse> => {
     const queryParams: Record<string, string> = {};
 

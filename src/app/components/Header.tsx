@@ -1,3 +1,4 @@
+// шапка сайта — навигация + переключатель темы
 import { Link, useLocation } from 'react-router';
 import { Button } from 'antd';
 import { SunOutlined, MoonOutlined } from '@ant-design/icons';

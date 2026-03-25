@@ -1,3 +1,5 @@
+// контекст темы — light/dark, сохраняется в localStorage
+// при переключении добавляет/убирает класс 'dark' на html, tailwind подхватывает
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 type Theme = 'light' | 'dark';

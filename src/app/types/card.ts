@@ -1,3 +1,7 @@
+// типы данных для объявлений
+// Category — три категории: авто, недвижимость, электроника
+// у каждой категории свои params (характеристики)
+
 export type Category = 'auto' | 'real_estate' | 'electronics';
 
 export interface AutoItemParams {
@@ -70,6 +74,7 @@ export interface ItemUpdatePayload {
   images?: string[];
 }
 
+// параметры запроса списка — фильтры, сортировка, пагинация
 export interface ItemsQueryParams {
   q?: string;
   limit?: number;

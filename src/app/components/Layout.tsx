@@ -1,3 +1,4 @@
+// общий layout — хедер сверху + контент через Outlet (react-router)
 import { Outlet } from 'react-router';
 import Header from './Header';
 

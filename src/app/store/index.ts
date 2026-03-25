@@ -1,3 +1,7 @@
+// redux store — два слайса:
+// ads - список объявлений, фильтры, пагинация
+// itemDetail - детальная карточка + сохранение
+
 import { configureStore } from '@reduxjs/toolkit';
 import adsReducer from './cardsSlice';
 import itemDetailReducer from './cardDetailSlice';

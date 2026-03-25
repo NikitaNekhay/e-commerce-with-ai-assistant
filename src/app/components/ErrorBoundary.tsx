@@ -1,3 +1,5 @@
+// глобальный обработчик ошибок — ловит необработанные исключения в react-дереве
+// class component потому что getDerivedStateFromError работает только в классах
 import { Component, type ReactNode } from 'react';
 import { Button, Result } from 'antd';
 import { Link } from 'react-router';

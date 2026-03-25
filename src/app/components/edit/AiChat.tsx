@@ -1,3 +1,6 @@
+// чат с ai-ассистентом — боковая панель на странице редактирования
+// передаёт контекст текущего объявления в каждый запрос
+// enter отправляет, shift+enter — перенос строки
 import { useState, useRef, useEffect } from 'react';
 import { Input, Button, Spin } from 'antd';
 import { SendOutlined, RobotOutlined, UserOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -69,7 +72,7 @@ export default function AiChat({ getItemPayload }: AiChatProps) {
 
   return (
     <div className="border dark:border-gray-600 rounded-lg flex flex-col h-[500px] bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
+      {/* заголовок чата */}
       <div className="px-4 py-3 border-b dark:border-gray-600 flex items-center justify-between bg-white dark:bg-gray-800 rounded-t-lg">
         <div className="flex items-center gap-2">
           <RobotOutlined className="text-blue-500" />
@@ -88,7 +91,7 @@ export default function AiChat({ getItemPayload }: AiChatProps) {
         )}
       </div>
 
-      {/* Messages */}
+      {/* сообщения */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.length === 0 && (
           <div className="text-center text-gray-400 text-sm mt-8">
@@ -139,7 +142,7 @@ export default function AiChat({ getItemPayload }: AiChatProps) {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input */}
+      {/* поле ввода */}
       <div className="p-3 border-t dark:border-gray-600 bg-white dark:bg-gray-800 rounded-b-lg">
         <div className="flex gap-2">
           <Input

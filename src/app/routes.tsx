@@ -1,3 +1,11 @@
+// роутинг приложения
+// / -> редирект на /ads
+// /ads -> список объявлений
+// /ads/:id -> детальная страница объявления
+// /ads/:id/edit -> редактирование
+// * -> 404
+// Layout оборачивает все страницы (хедер + контент)
+
 import { createBrowserRouter, Navigate } from 'react-router';
 import Layout from './components/Layout';
 import CardsPage from './pages/CardsPage';

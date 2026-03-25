@@ -1,3 +1,7 @@
+// слайс списка объявлений
+// хранит items, total, query-параметры (фильтры, сортировка, пагинация)
+// query сохраняется между переходами — фильтры не сбрасываются при навигации
+
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { itemsApi } from '../services/api';
 import type { ItemListEntry, ItemsQueryParams } from '../types/card';

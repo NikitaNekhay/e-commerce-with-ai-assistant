@@ -1,3 +1,6 @@
+// слайс детальной карточки — загрузка по id и обновление (PUT)
+// saving отслеживает состояние сохранения формы
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { itemsApi } from '../services/api';
 import type { ItemDetail, ItemUpdatePayload } from '../types/card';

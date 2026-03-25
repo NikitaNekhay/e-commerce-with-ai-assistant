@@ -1,3 +1,6 @@
+// маппинги категорий и их параметров на русские лейблы
+// используются в UI для отображения
+
 import type { Category } from '../types/card';
 
 export const CATEGORY_LABELS: Record<Category, string> = {
