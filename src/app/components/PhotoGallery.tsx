@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { Image } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 interface PhotoGalleryProps {
@@ -14,7 +15,18 @@ const ImagePlaceholder = () => (
 );
 
 export default function PhotoGallery({ images }: PhotoGalleryProps) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const thumbRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Scroll active thumbnail into view
+  useEffect(() => {
+    const thumb = thumbRefs.current[selectedIndex];
+    if (thumb && scrollRef.current) {
+      thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [selectedIndex]);
 
   if (!images || images.length === 0) {
     return (
@@ -26,69 +38,90 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
     );
   }
 
-  const mainImage = images[0];
-  const thumbs = images.slice(1);
+  const handlePrev = () => {
+    setSelectedIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
+  };
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (!scrollRef.current) return;
-    const amount = 120;
-    scrollRef.current.scrollBy({
-      left: direction === 'left' ? -amount : amount,
-      behavior: 'smooth',
-    });
+  const handleNext = () => {
+    setSelectedIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
   };
 
   return (
     <div className="w-[480px] shrink-0">
-      {/* Main image */}
-      <div className="rounded-lg h-[360px] overflow-hidden mb-3">
+      {/* Main image with navigation arrows */}
+      <div
+        className="relative group rounded-lg h-[360px] overflow-hidden mb-3 cursor-pointer"
+        onClick={() => setPreviewOpen(true)}
+      >
         <img
-          src={mainImage}
-          alt="Главное фото"
+          src={images[selectedIndex]}
+          alt={`Фото ${selectedIndex + 1}`}
           className="w-full h-full object-cover"
           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
+
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 bg-white/80 dark:bg-gray-700/80 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-gray-600"
+            >
+              <LeftOutlined className="text-sm" />
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); handleNext(); }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 bg-white/80 dark:bg-gray-700/80 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-gray-600"
+            >
+              <RightOutlined className="text-sm" />
+            </button>
+          </>
+        )}
+
+        {/* Image counter badge */}
+        {images.length > 1 && (
+          <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+            {selectedIndex + 1} / {images.length}
+          </div>
+        )}
       </div>
 
-      {/* Thumbnails with horizontal scroll */}
-      {thumbs.length > 0 && (
-        <div className="relative group">
-          {/* Left scroll button */}
-          <button
-            onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-7 h-7 bg-white/90 dark:bg-gray-700/90 rounded-full shadow flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <LeftOutlined className="text-xs" />
-          </button>
-
-          <div
-            ref={scrollRef}
-            className="flex gap-2 overflow-x-auto scrollbar-hide"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {thumbs.map((img, i) => (
-              <div
-                key={i}
-                className="w-[100px] h-[70px] rounded-md overflow-hidden shrink-0 border-2 border-transparent hover:border-blue-500 transition-colors cursor-pointer"
-              >
-                <img
-                  src={img}
-                  alt={`Фото ${i + 2}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Right scroll button */}
-          <button
-            onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-7 h-7 bg-white/90 dark:bg-gray-700/90 rounded-full shadow flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <RightOutlined className="text-xs" />
-          </button>
+      {/* Thumbnails */}
+      {images.length > 1 && (
+        <div
+          ref={scrollRef}
+          className="flex gap-2 overflow-x-auto"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {images.map((img, i) => (
+            <div
+              key={i}
+              ref={(el) => { thumbRefs.current[i] = el; }}
+              onClick={() => setSelectedIndex(i)}
+              className={`w-[100px] h-[70px] rounded-md overflow-hidden shrink-0 border-2 transition-colors cursor-pointer ${
+                i === selectedIndex ? 'border-blue-500' : 'border-transparent hover:border-gray-400'
+              }`}
+            >
+              <img src={img} alt={`Фото ${i + 1}`} className="w-full h-full object-cover" />
+            </div>
+          ))}
         </div>
       )}
+
+      {/* Ant Design Image preview (hidden, used for lightbox) */}
+      <div style={{ height: 0, overflow: 'hidden' }}>
+        <Image.PreviewGroup
+          preview={{
+            visible: previewOpen,
+            onVisibleChange: (vis) => setPreviewOpen(vis),
+            current: selectedIndex,
+            onChange: (current) => setSelectedIndex(current),
+          }}
+        >
+          {images.map((img, i) => (
+            <Image key={i} src={img} />
+          ))}
+        </Image.PreviewGroup>
+      </div>
     </div>
   );
 }
