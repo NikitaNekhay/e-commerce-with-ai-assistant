@@ -5,6 +5,7 @@ import { BulbOutlined, ArrowLeftOutlined, LoadingOutlined, RedoOutlined } from '
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchItemById, updateItem, clearItem } from '../store/cardDetailSlice';
 import { CATEGORY_OPTIONS } from '../utils/categories';
+import { getMissingParamNames } from '../utils/needsRevision';
 import { aiApi } from '../services/aiApi';
 import ElectronicsFields from '../components/edit/ElectronicsFields';
 import AutoFields from '../components/edit/AutoFields';
@@ -42,6 +43,8 @@ export default function CardEditPage() {
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [currentDescription, setCurrentDescription] = useState('');
   const [editImages, setEditImages] = useState<string[]>([]);
+  const [revisionFields, setRevisionFields] = useState<Set<string>>(new Set());
+  const initialRevisionFieldsRef = useRef<Set<string>>(new Set());
   const initializedRef = useRef(false);
 
   // AI states
@@ -85,6 +88,20 @@ export default function CardEditPage() {
     if (!id) return;
     const values = form.getFieldsValue(true);
     localStorage.setItem(getDraftKey(id), JSON.stringify(values));
+
+    // Update revision field warnings dynamically
+    if (initialRevisionFieldsRef.current.size > 0) {
+      const stillMissing = new Set<string>();
+      for (const field of initialRevisionFieldsRef.current) {
+        if (field === 'description') {
+          if (!values.description?.trim()) stillMissing.add('description');
+        } else {
+          const val = values.params?.[field];
+          if (val === undefined || val === null || val === '') stillMissing.add(field);
+        }
+      }
+      setRevisionFields(stillMissing);
+    }
   }, [id, form]);
 
   // Cleanup abort on unmount
@@ -110,6 +127,16 @@ export default function CardEditPage() {
     if (!item || !id || initializedRef.current) return;
     initializedRef.current = true;
 
+    // Compute initial revision fields
+    const { missingDescription, missingParams } = getMissingParamNames(item);
+    if (missingDescription || missingParams.length > 0) {
+      const fields = new Set<string>();
+      if (missingDescription) fields.add('description');
+      missingParams.forEach((p) => fields.add(p));
+      initialRevisionFieldsRef.current = fields;
+      setRevisionFields(new Set(fields));
+    }
+
     const draftKey = getDraftKey(id);
     const savedDraft = localStorage.getItem(draftKey);
 
@@ -126,6 +153,19 @@ export default function CardEditPage() {
             setSelectedCategory(draft.category);
             setDescriptionLength(draft.description?.length || 0);
             setCurrentDescription(draft.description || '');
+            // Recompute revision fields for draft values
+            if (initialRevisionFieldsRef.current.size > 0) {
+              const stillMissing = new Set<string>();
+              for (const field of initialRevisionFieldsRef.current) {
+                if (field === 'description') {
+                  if (!draft.description?.trim()) stillMissing.add('description');
+                } else {
+                  const val = draft.params?.[field];
+                  if (val === undefined || val === null || val === '') stillMissing.add(field);
+                }
+              }
+              setRevisionFields(stillMissing);
+            }
           },
           onCancel() {
             localStorage.removeItem(draftKey);
@@ -266,9 +306,9 @@ export default function CardEditPage() {
   // Render category-specific fields
   const renderCategoryFields = () => {
     switch (selectedCategory) {
-      case 'electronics': return <ElectronicsFields />;
-      case 'auto': return <AutoFields />;
-      case 'real_estate': return <RealEstateFields />;
+      case 'electronics': return <ElectronicsFields revisionFields={revisionFields} />;
+      case 'auto': return <AutoFields revisionFields={revisionFields} />;
+      case 'real_estate': return <RealEstateFields revisionFields={revisionFields} />;
       default: return <p className="text-gray-400">Выберите категорию для отображения характеристик</p>;
     }
   };
@@ -443,7 +483,12 @@ export default function CardEditPage() {
                 {/* Description - use Form.Item without name for layout, inner Form.Item with name for control */}
                 <Form.Item label={<span className="font-semibold">Описание</span>}>
                   <div className="space-y-3">
-                    <Form.Item name="description" noStyle>
+                    <Form.Item
+                      name="description"
+                      noStyle={!revisionFields.has('description')}
+                      validateStatus={revisionFields.has('description') ? 'warning' : undefined}
+                      help={revisionFields.has('description') ? 'Поле требует доработок' : undefined}
+                    >
                       <TextArea
                         rows={6}
                         maxLength={1000}

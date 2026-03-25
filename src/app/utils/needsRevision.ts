@@ -44,3 +44,19 @@ export function getMissingFields(item: Item | ItemDetail): string[] {
 export function computeNeedsRevision(item: Item | ItemDetail): boolean {
   return getMissingFields(item).length > 0;
 }
+
+export function getMissingParamNames(item: Item | ItemDetail): { missingDescription: boolean; missingParams: string[] } {
+  const missingDescription = !item.description || item.description.trim() === '';
+  const fields = PARAM_FIELDS[item.category] || [];
+  const params = item.params as Record<string, unknown>;
+  const missingParams: string[] = [];
+
+  for (const field of fields) {
+    const value = params[field];
+    if (value === undefined || value === null || value === '') {
+      missingParams.push(field);
+    }
+  }
+
+  return { missingDescription, missingParams };
+}

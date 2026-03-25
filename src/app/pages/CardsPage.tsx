@@ -186,14 +186,17 @@ export default function CardsPage() {
               </div>
             </div>
 
-            {hasActiveFilters && (
-              <button
-                onClick={handleResetFilters}
-                className="bg-white cursor-pointer dark:bg-gray-800 rounded-2xl shadow-sm px-6 py-3 text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-all duration-200 text-sm font-medium hover:shadow-md active:scale-95"
-              >
-                Сбросить фильтры
-              </button>
-            )}
+            <button
+              onClick={handleResetFilters}
+              disabled={!hasActiveFilters}
+              className={`bg-white dark:bg-gray-800 rounded-2xl shadow-sm px-6 py-3 transition-all duration-200 text-sm font-medium ${
+                hasActiveFilters
+                  ? 'cursor-pointer text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 hover:shadow-md active:scale-95'
+                  : 'cursor-default text-gray-400 dark:text-gray-500'
+              }`}
+            >
+              Сбросить фильтры
+            </button>
           </div>
 
           {/* Right: Cards Grid/List + Pagination */}

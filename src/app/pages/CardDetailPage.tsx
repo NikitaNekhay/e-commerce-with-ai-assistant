@@ -142,11 +142,23 @@ export default function CardDetailPage() {
           <div className="h-px bg-gray-200 dark:bg-gray-600 mb-8" />
 
           {/* Details Section */}
-          <div className="flex gap-8 mb-8">
-            {/* Photos */}
-            <PhotoGallery images={item.images || []} />
+          <div className="flex gap-8">
+            {/* Left: Photos + Description */}
+            <div className="w-[480px] shrink-0">
+              <PhotoGallery images={item.images || []} />
 
-            {/* Characteristics */}
+              {/* Description */}
+              <div className="mt-8">
+                <h2 className="text-xl font-medium mb-4">Описание</h2>
+                {item.description && item.description.trim() ? (
+                  <p className="text-base leading-relaxed">{item.description}</p>
+                ) : (
+                  <p className="text-gray-400">Отсутствует</p>
+                )}
+              </div>
+            </div>
+
+            {/* Right: Characteristics */}
             <div className="flex-1">
               {/* Notification for missing fields */}
               {needsRevision && (
@@ -178,16 +190,6 @@ export default function CardDetailPage() {
                 <p className="text-gray-400">Характеристики не указаны</p>
               )}
             </div>
-          </div>
-
-          {/* Description */}
-          <div>
-            <h2 className="text-xl font-medium mb-4">Описание</h2>
-            {item.description && item.description.trim() ? (
-              <p className="text-base leading-relaxed">{item.description}</p>
-            ) : (
-              <p className="text-gray-400">Отсутствует</p>
-            )}
           </div>
         </div>
       </div>
