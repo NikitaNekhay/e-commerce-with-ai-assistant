@@ -4,11 +4,11 @@ export default function AutoFields() {
   return (
     <>
       <Form.Item name={['params', 'brand']} label="Бренд" className="mb-3">
-        <Input size="large" placeholder="Например: Toyota" />
+        <Input size="large" placeholder="Например: Toyota" allowClear />
       </Form.Item>
 
       <Form.Item name={['params', 'model']} label="Модель" className="mb-3">
-        <Input size="large" placeholder="Например: Camry" />
+        <Input size="large" placeholder="Например: Camry" allowClear />
       </Form.Item>
 
       <Form.Item name={['params', 'yearOfManufacture']} label="Год выпуска" className="mb-3">
@@ -16,7 +16,7 @@ export default function AutoFields() {
       </Form.Item>
 
       <Form.Item name={['params', 'transmission']} label="Коробка передач" className="mb-3">
-        <Select size="large" placeholder="Выберите тип КПП" allowClear>
+        <Select size="large" placeholder="Выберите тип КПП">
           <Select.Option value="automatic">Автоматическая</Select.Option>
           <Select.Option value="manual">Механическая</Select.Option>
         </Select>

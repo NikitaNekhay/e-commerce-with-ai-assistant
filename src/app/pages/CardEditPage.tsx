@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router';
 import { Form, Input, InputNumber, Select, Button, Alert, Spin, message, Popover, Modal } from 'antd';
-import { BulbOutlined, ArrowLeftOutlined, LoadingOutlined } from '@ant-design/icons';
+import { BulbOutlined, ArrowLeftOutlined, LoadingOutlined, RedoOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchItemById, updateItem, clearItem } from '../store/cardDetailSlice';
 import { CATEGORY_OPTIONS } from '../utils/categories';
@@ -48,6 +48,8 @@ export default function CardEditPage() {
   const [aiPriceLoading, setAiPriceLoading] = useState(false);
   const [aiPriceData, setAiPriceData] = useState<MarketPriceInfo | null>(null);
   const [showPricePopover, setShowPricePopover] = useState(false);
+  const [aiDescDone, setAiDescDone] = useState(false);
+  const [aiPriceDone, setAiPriceDone] = useState(false);
   const aiAbortRef = useRef<AbortController | null>(null);
 
   // All hooks MUST be above any early returns
@@ -156,6 +158,7 @@ export default function CardEditPage() {
 
     setAiDescLoading(true);
     setAiDescResult(null);
+    setAiDescDone(false);
     // Capture current description before AI call for diff
     setCurrentDescription(values.description || '');
 
@@ -164,9 +167,11 @@ export default function CardEditPage() {
       const currentDesc = values.description?.trim() || undefined;
       const result = await aiApi.generateDescription(payload, currentDesc, controller.signal);
       setAiDescResult(result.description);
+      setAiDescDone(true);
     } catch (err: any) {
       if (err.name !== 'CanceledError' && err.code !== 'ERR_CANCELED') {
         message.error('Не удалось сгенерировать описание');
+        setAiDescDone(true);
       }
     } finally {
       setAiDescLoading(false);
@@ -202,15 +207,18 @@ export default function CardEditPage() {
 
     setAiPriceLoading(true);
     setAiPriceData(null);
+    setAiPriceDone(false);
 
     try {
       const payload = buildPayloadFromForm(values);
       const result = await aiApi.getMarketPrice(payload, controller.signal);
       setAiPriceData(result);
       setShowPricePopover(true);
+      setAiPriceDone(true);
     } catch (err: any) {
       if (err.name !== 'CanceledError' && err.code !== 'ERR_CANCELED') {
         message.error('Не удалось оценить рыночную цену');
+        setAiPriceDone(true);
       }
     } finally {
       setAiPriceLoading(false);
@@ -239,6 +247,11 @@ export default function CardEditPage() {
     } catch {
       message.error('Не удалось сохранить изменения');
     }
+  };
+
+  // Validation failed on submit
+  const handleFinishFailed = () => {
+    message.error('При попытке сохранить изменения произошла ошибка. Попробуйте ещё раз или зайдите позже.');
   };
 
   const handleCancel = () => {
@@ -329,6 +342,7 @@ export default function CardEditPage() {
                 form={form}
                 layout="vertical"
                 onFinish={handleSubmit}
+                onFinishFailed={handleFinishFailed}
                 onValuesChange={handleValuesChange}
                 className="space-y-4"
               >
@@ -397,12 +411,14 @@ export default function CardEditPage() {
                       onOpenChange={setShowPricePopover}
                     >
                       <Button
-                        icon={<BulbOutlined />}
-                        className="bg-[#f9f1e6] border-0 text-[#ffa940] hover:bg-[#f9f1e6] hover:text-[#ffa940]"
+                        icon={aiPriceDone && !aiPriceLoading ? <RedoOutlined /> : <BulbOutlined />}
+                        className={aiPriceDone && !aiPriceLoading
+                          ? 'bg-[#f6ffed] border-0 text-[#52c41a]'
+                          : 'bg-[#f9f1e6] border-0 text-[#ffa940] hover:bg-[#f9f1e6] hover:text-[#ffa940]'}
                         onClick={handleAiMarketPrice}
                         loading={aiPriceLoading}
                       >
-                        Узнать рыночную цену
+                        {aiPriceLoading ? 'Выполняется запрос' : aiPriceDone ? 'Повторить запрос' : 'Узнать рыночную цену'}
                       </Button>
                     </Popover>
                   </div>
@@ -434,12 +450,14 @@ export default function CardEditPage() {
                     </Form.Item>
 
                     <Button
-                      icon={<BulbOutlined />}
-                      className="bg-[#f9f1e6] border-0 text-[#ffa940] hover:bg-[#f9f1e6] hover:text-[#ffa940]"
+                      icon={aiDescDone && !aiDescLoading ? <RedoOutlined /> : <BulbOutlined />}
+                      className={aiDescDone && !aiDescLoading
+                        ? 'bg-[#f6ffed] border-0 text-[#52c41a]'
+                        : 'bg-[#f9f1e6] border-0 text-[#ffa940] hover:bg-[#f9f1e6] hover:text-[#ffa940]'}
                       onClick={handleAiDescription}
                       loading={aiDescLoading}
                     >
-                      {descriptionLength > 0 ? 'Улучшить описание' : 'Придумать описание'}
+                      {aiDescLoading ? 'Выполняется запрос' : aiDescDone ? 'Повторить запрос' : (descriptionLength > 0 ? 'Улучшить описание' : 'Придумать описание')}
                     </Button>
 
                     {/* Diff View: Было → Стало */}

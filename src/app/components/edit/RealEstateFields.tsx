@@ -4,7 +4,7 @@ export default function RealEstateFields() {
   return (
     <>
       <Form.Item name={['params', 'type']} label="Тип" className="mb-3">
-        <Select size="large" placeholder="Выберите тип" allowClear>
+        <Select size="large" placeholder="Выберите тип">
           <Select.Option value="flat">Квартира</Select.Option>
           <Select.Option value="house">Дом</Select.Option>
           <Select.Option value="room">Комната</Select.Option>
@@ -12,7 +12,7 @@ export default function RealEstateFields() {
       </Form.Item>
 
       <Form.Item name={['params', 'address']} label="Адрес" className="mb-3">
-        <Input size="large" placeholder="Например: Москва, ул. Тверская, д. 15" />
+        <Input size="large" placeholder="Например: Москва, ул. Тверская, д. 15" allowClear />
       </Form.Item>
 
       <Form.Item name={['params', 'area']} label="Площадь (м²)" className="mb-3">
