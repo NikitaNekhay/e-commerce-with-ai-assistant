@@ -6,3 +6,21 @@
 * {
   font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
+
+/* Position message notifications in top-left corner */
+#msg-container {
+  position: fixed;
+  top: 72px;
+  right: 24px;
+  z-index: 2000;
+}
+
+#msg-container .ant-message,
+#msg-container [class*="ant-message"]:not([class*="ant-message-notice"]) {
+  position: static !important;
+  width: auto !important;
+  inset: auto !important;
+  transform: none !important;
+  text-align: right !important;
+  top: 0 !important;
+}

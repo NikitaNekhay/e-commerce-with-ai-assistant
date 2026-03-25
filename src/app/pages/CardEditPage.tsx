@@ -224,13 +224,9 @@ export default function CardEditPage() {
 
   const handleApplyDescription = () => {
     if (aiDescResult) {
-      const desc = aiDescResult.length > 1000 ? aiDescResult.slice(0, 1000) : aiDescResult;
-      if (aiDescResult.length > 1000) {
-        message.warning('Описание было сокращено до 1000 символов');
-      }
-      form.setFieldsValue({ description: desc });
-      setDescriptionLength(desc.length);
-      setCurrentDescription(desc);
+      form.setFieldsValue({ description: aiDescResult });
+      setDescriptionLength(aiDescResult.length);
+      setCurrentDescription(aiDescResult);
       setAiDescResult(null);
       handleValuesChange();
       message.success('Описание применено');
@@ -418,14 +414,11 @@ export default function CardEditPage() {
                 <Form.Item
                   name="title"
                   label={
-                    <span>
-                      <span className="text-red-500 mr-1">*</span>
                       <span className="font-semibold">Название</span>
-                    </span>
                   }
                   rules={[{ required: true, message: 'Пожалуйста, введите название' }]}
                 >
-                  <Input size="large" placeholder="Введите название объявления" style={{ maxWidth: 456 }} allowClear maxLength={200} showCount />
+                  <Input size="large" placeholder="Введите название объявления" style={{ maxWidth: 456 }} allowClear />
                 </Form.Item>
 
                 <div className="h-px bg-gray-200 dark:bg-gray-600" />
@@ -461,8 +454,8 @@ export default function CardEditPage() {
                       <Button
                         icon={aiPriceDone && !aiPriceLoading ? <RedoOutlined /> : <BulbOutlined />}
                         className={aiPriceDone && !aiPriceLoading
-                          ? 'bg-[#f6ffed] dark:bg-green-900/30 border-0 text-[#52c41a] dark:text-green-400'
-                          : 'bg-[#f9f1e6] dark:bg-yellow-900/30 border-0 text-[#ffa940] dark:text-orange-400 hover:bg-[#f9f1e6] hover:text-[#ffa940]'}
+                          ? '!bg-[#F9F1E6] dark:!bg-green-900/30 border-0 !text-[#FFA940] dark:text-green-400 hover:!border-[#FFA940]'
+                          : '!bg-[#f9f1e6] dark:!bg-yellow-900/30 border-0 !text-[#ffa940] dark:text-orange-400 hover:bg-[#f9f1e6] hover:!border-[#FFA940] hover:text-[#FFA940]'}
                         onClick={handleAiMarketPrice}
                         loading={aiPriceLoading}
                       >
@@ -487,28 +480,26 @@ export default function CardEditPage() {
                 {/* Description - use Form.Item without name for layout, inner Form.Item with name for control */}
                 <Form.Item label={<span className="font-semibold">Описание</span>}>
                   <div className="space-y-3">
-                    <Form.Item name="description" noStyle>
+                    <Form.Item
+                      name="description"
+                      noStyle={!revisionFields.has('description')}
+                      validateStatus={revisionFields.has('description') ? 'warning' : undefined}
+                      help={revisionFields.has('description') ? 'Поле требует доработок' : undefined}
+                    >
                       <TextArea
                         rows={6}
                         maxLength={1000}
                         showCount
                         style={{ maxWidth: 942 }}
                         onChange={(e) => setDescriptionLength(e.target.value.length)}
-                        status={revisionFields.has('description') ? 'warning' : undefined}
                       />
                     </Form.Item>
-                    {revisionFields.has('description') && (
-                      <p className="text-[#fa8c16] text-sm">Поле требует доработок</p>
-                    )}
-                    {descriptionLength >= 1000 && (
-                      <p className="text-[#fa8c16] text-sm">Достигнут лимит в 1000 символов</p>
-                    )}
 
                     <Button
                       icon={aiDescDone && !aiDescLoading ? <RedoOutlined /> : <BulbOutlined />}
                       className={aiDescDone && !aiDescLoading
-                        ? 'bg-[#f6ffed] border-0 text-[#52c41a]'
-                        : 'bg-[#f9f1e6] border-0 text-[#ffa940] hover:bg-[#f9f1e6] hover:text-[#ffa940]'}
+                        ? '!bg-[#F9F1E6] dark:!bg-green-900/30 border-0 hover:!border-[#FFA940] !text-[#FFA940] dark:text-green-400'
+                        : '!bg-[#f9f1e6] dark:!bg-yellow-900/30 border-0 hover:!border-[#FFA940] !text-[#ffa940] dark:text-orange-400 hover:bg-[#f9f1e6] hover:text-[#ffa940]'}
                       onClick={handleAiDescription}
                       loading={aiDescLoading}
                     >
@@ -537,7 +528,7 @@ export default function CardEditPage() {
                   <Button type="primary" htmlType="submit" size="large" loading={saving}>
                     Сохранить
                   </Button>
-                  <Button size="large" onClick={handleCancel}>
+                  <Button className='!text-[#5A5A5A] !bg-[#D9D9D9] hover:!border-[#5A5A5A]' size="large" onClick={handleCancel}>
                     Отменить
                   </Button>
                 </div>

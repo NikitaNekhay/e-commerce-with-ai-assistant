@@ -93,7 +93,7 @@ function Button() {
   return (
     <div className="bg-[#f9f1e6] content-stretch flex gap-[10px] h-[32px] items-center justify-center overflow-clip px-[7px] relative rounded-[8px] shrink-0 w-[195px]" data-name="Button">
       <IconWrapper />
-      <p className="font-['Roboto:Regular',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#ffa940] text-[14px] text-center whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
+      <p className="font-['Roboto:Regular',sans-serif] font-normal leading-[22px] relative shrink-0 !text-[#ffa940] text-[14px] text-center whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
         Повторить запрос
       </p>
     </div>
@@ -439,7 +439,7 @@ function Button1() {
   return (
     <div className="bg-[#f9f1e6] content-stretch flex gap-[10px] h-[32px] items-center justify-center overflow-clip px-[7px] relative rounded-[8px] shrink-0 w-[187px]" data-name="Button">
       <IconWrapper1 />
-      <p className="font-['Roboto:Regular',sans-serif] font-normal leading-[22px] relative shrink-0 text-[#ffa940] text-[14px] text-center whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
+      <p className="font-['Roboto:Regular',sans-serif] font-normal leading-[22px] relative shrink-0 !text-[#ffa940] text-[14px] text-center whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
         Придумать описание
       </p>
     </div>

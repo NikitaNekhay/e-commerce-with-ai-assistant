@@ -127,7 +127,7 @@ export default function CardDetailPage() {
 
             <div className="flex items-start justify-between">
               <Link to={`/ads/${item.id}/edit`}>
-                <Button type="primary" icon={<EditOutlined />}>
+                <Button type="primary" icon={<EditOutlined />} iconPlacement='end'>
                   Редактировать
                 </Button>
               </Link>
@@ -162,8 +162,8 @@ export default function CardDetailPage() {
             <div className="flex-1">
               {/* Notification for missing fields */}
               {needsRevision && (
-                <div className="mb-6 bg-[#f9f1e6] rounded-lg p-4 shadow-md flex gap-4">
-                  <ExclamationCircleOutlined className="text-[#FFA940] text-lg mt-1" />
+                <div className="mb-6 text-[#f9f1e6] rounded-lg p-4 shadow-md flex items-start gap-4">
+                  <ExclamationCircleOutlined className="!text-[#FFA940] text-lg mt-1" />
                   <div>
                     <h3 className="font-semibold text-base mb-1 text-gray-900">Требуются доработки</h3>
                     <p className="text-sm mb-1 text-gray-700">У объявления не заполнены поля:</p>

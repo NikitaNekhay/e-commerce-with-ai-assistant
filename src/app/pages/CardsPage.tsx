@@ -124,24 +124,28 @@ export default function CardsPage() {
             <Input
               size="large"
               placeholder="Найти объявление..."
-              prefix={<SearchOutlined />}
+              suffix={<SearchOutlined />}
               value={searchInput}
               onChange={handleSearchChange}
               allowClear
-              className="flex-1 min-w-[200px]"
+              className="flex-1 min-w-[200px] !bg-[#F6F6F8]"
             />
 
             {/* View Mode Toggle */}
             <div className="flex gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`cursor-pointer p-2 rounded-md transition-all duration-200 ${viewMode === 'grid' ? 'bg-blue-500 text-white shadow-sm scale-105' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
+                className={`cursor-pointer p-2 rounded-md transition-all duration-200 ${viewMode === 'grid' ? '!text-blue-500 text-white shadow-sm scale-105' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
               >
                 <AppstoreOutlined />
               </button>
+
+            {/* Divider */}
+              <div className="w-[2.5px] h-auto bg-white mx-0" />
+
               <button
                 onClick={() => setViewMode('list')}
-                className={`cursor-pointer p-2 rounded-md transition-all duration-200 ${viewMode === 'list' ? 'bg-blue-500 text-white shadow-sm scale-105' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
+                className={`cursor-pointer p-2 rounded-md transition-all duration-200 ${viewMode === 'list' ? '!text-blue-500 text-white shadow-sm scale-105' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
               >
                 <UnorderedListOutlined />
               </button>
@@ -152,6 +156,15 @@ export default function CardsPage() {
               value={sortBy}
               onChange={handleSortChange}
               style={{ width: 280 }}
+              
+              className=" !bg-white 
+              !border-4 
+              !border-gray-100
+              !rounded-md
+              hover:!border-gray-300
+               active:!border-gray-300
+               !outline-border-gray-300"
+              
             >
               <Select.Option value="createdAtDesc">По новизне (сначала новые)</Select.Option>
               <Select.Option value="createdAtAsc">По новизне (сначала старые)</Select.Option>
@@ -171,7 +184,7 @@ export default function CardsPage() {
               <h3 className="font-semibold mb-4">Фильтры</h3>
 
               <div className="mb-4">
-                <label className="block mb-2 font-medium">Категория</label>
+                <label className="block mb-2">Категория</label>
                 <Checkbox.Group
                   value={selectedCategories}
                   onChange={(values) => handleCategoryChange(values as Category[])}
@@ -184,14 +197,15 @@ export default function CardsPage() {
                     ))}
                   </div>
                 </Checkbox.Group>
+                
               </div>
-
+        <div className="h-px bg-gray-200 dark:bg-gray-600 mb-2"></div>
               <div className="flex items-center gap-2">
+                <span className="text-sm font-bold">Только требующие доработок</span>
                 <Switch
                   checked={needsRevision}
                   onChange={handleRevisionToggle}
                 />
-                <span className="text-sm">Только требующие доработок</span>
               </div>
             </div>
 
@@ -230,7 +244,7 @@ export default function CardsPage() {
                       className="block"
                     >
                       {viewMode === 'grid' ? (
-                        <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 h-[340px] flex flex-col">
+                        <div className="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 h-[270px] flex flex-col">
                           <div className="bg-[#fafafa] dark:bg-gray-700 h-[140px] flex items-center justify-center shrink-0 overflow-hidden">
                             {item.images && item.images.length > 0 ? (
                               <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
@@ -241,17 +255,17 @@ export default function CardsPage() {
                             )}
                           </div>
                           <div className="p-3 flex flex-col flex-1">
-                            <div className="mb-1">
-                              <span className="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-xs rounded">
+                            <div className="relative bottom-7 -mb-3">
+                              <span className="inline-block px-2 py-1 dark:bg-gray-700 border-2 border-[#d9d9d9] bg-white dark:text-gray-300 text-xs rounded-md">
                                 {CATEGORY_LABELS[item.category]}
                               </span>
                             </div>
                             <h3 className="font-medium text-sm mb-1 truncate">{item.title}</h3>
-                            <p className="text-lg font-semibold">{item.price.toLocaleString('ru-RU')} ₽</p>
-                            <div className="mt-auto">
+                            <p className="text-lg text-black/50 mb-1 font-semibold">{item.price.toLocaleString('ru-RU')} ₽</p>
+                            <div className="">
                               {item.needsRevision ? (
-                                <div className="p-1.5 bg-[#fff7ed] rounded text-xs">
-                                  <span className="text-[#ea580c] font-medium">⚠ Требует доработок</span>
+                                <div className="p-1.5 bg-[#f9f1e6] rounded-md text-xs w-fit">
+                                  <span className="text-[#FFA940] font-medium">• Требует доработок</span>
                                 </div>
                               ) : (
                                 <div className="h-[28px]" />
@@ -277,7 +291,7 @@ export default function CardsPage() {
                               </span>
                               <h3 className="font-medium text-lg">{item.title}</h3>
                               {item.needsRevision && (
-                                <span className="text-[#ea580c] text-sm font-medium">⚠ Требует доработок</span>
+                                <span className="text-[#FFA940] text-sm font-medium">⚠ Требует доработок</span>
                               )}
                             </div>
                             <p className="text-2xl font-semibold">{item.price.toLocaleString('ru-RU')} ₽</p>
